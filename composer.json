@@ -1,0 +1,14 @@
+{
+  "name": "ideologix/dlm-plugin-pro",
+  "autoload": {
+    "psr-4": {
+      "IdeoLogix\\DLMPluginPro\\": "includes/"
+    }
+  },
+  "require": {
+    "ideologix/dlm-wp-updater": "^1.0"
+  },
+  "config": {
+    "optimize-autoloader": true
+  }
+}
