@@ -2,6 +2,8 @@
 
 Sample plugin that utilizes the Digital License Manager PRO theme activator and update server.
 
+![Animation](https://user-images.githubusercontent.com/5760249/144770798-6a679694-955f-41f2-8faf-be473d8cc474.gif)
+
 ## Integration
 
 Digital License Manager PRO update server is pretty simple to integrate in any plugin, this is just an example with composer support.
