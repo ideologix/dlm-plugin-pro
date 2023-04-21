@@ -6,7 +6,7 @@
     }
   },
   "require": {
-    "ideologix/dlm-wp-updater": "^1.0"
+    "ideologix/dlm-wp-updater": "1.3.*"
   },
   "config": {
     "optimize-autoloader": true
