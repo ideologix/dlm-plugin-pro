@@ -2,6 +2,7 @@
 
 namespace IdeoLogix\DLMPluginPro;
 
+use IdeoLogix\DigitalLicenseManagerUpdaterWP\Core\Configuration;
 use IdeoLogix\DigitalLicenseManagerUpdaterWP\Main;
 
 /**
@@ -38,30 +39,88 @@ class Bootstrap {
 	}
 
 	/**
-	 * Setup the updater
+	 * Set up the activator and plugin updater
+	 *   1. Wrap the labels in your plugin text-domain so they become tralsatable
+	 *   2. Create instance of the Main class to start running the updater
+	 *   3. Optional functionality
 	 */
 	protected function setup_updater() {
 		try {
+
+			$labels = [
+				'activator.no_permissions'                   => __('Sorry, you dont have enough permissions to manage those settings.', 'dlm-plugin-pro'),
+				'activator.license_removed'                  => __('License removed.', 'dlm-plugin-pro'),
+				'activator.invalid_action'                   => __('Invalid action.', 'dlm-plugin-pro'),
+				'activator.invalid_license_key'              => __('Please provide valid product key.', 'dlm-plugin-pro'),
+				'activator.license_activated'                => __('Congrats! Your key is valid and your product will receive future updates', 'dlm-plugin-pro'),
+				'activator.license_deactivated'              => __('The license key is now deactivated.', 'dlm-plugin-pro'),
+				'activator.activation_permanent'             => __('License :status. Activation permanent.', 'dlm-plugin-pro'),
+				'activator.activation_expires'               => __('License :status. Expires on :expires_at (:days_remaining days remaining).', 'dlm-plugin-pro'),
+				'activator.activation_deactivated_permanent' => __('License :status. Deactivated on :deactivated_at (Valid permanently)', 'dlm-plugin-pro'),
+				'activator.activation_deactivated_expires'   => __('License :status. Deactivated on :deactivated_at (:days_remaining days remaining)', 'dlm-plugin-pro'),
+				'activator.activation_expired_purchase'      => __('Your license is :status. To get regular updates and support, please <purchase_link>purchase the product</purchase_link>.', 'dlm-plugin-pro'),
+				'activator.activation_purchase'              => __('To get regular updates and support, please <purchase_link>purchase the product</purchase_link>.', 'dlm-plugin-pro'),
+				'activator.word_valid'                       => __('valid', 'dlm-plugin-pro'),
+				'activator.word_expired'                     => __('expired', 'dlm-plugin-pro'),
+				'activator.word_expired_or_invalid'          => __('expired or invalid', 'dlm-plugin-pro'),
+				'activator.word_deactivate'                  => __('Deactivate', 'dlm-plugin-pro'),
+				'activator.word_activate'                    => __('Activate', 'dlm-plugin-pro'),
+				'activator.word_reactivate'                  => __('Reactivate', 'dlm-plugin-pro'),
+				'activator.word_purchase'                    => __('Purchase', 'dlm-plugin-pro'),
+				'activator.word_remove'                      => __('Remove', 'dlm-plugin-pro'),
+				'activator.word_product_key'                 => __('Product Key', 'dlm-plugin-pro'),
+				'activator.help_remove'                      => __('Remove the license key', 'dlm-plugin-pro'),
+				'activator.help_product_key'                 => __('Enter your product key', 'dlm-plugin-pro'),
+			];
+
 			$this->updater = new Main( array(
-				'id'              => DLM_PLUGIN_PRO_ID,
-				'name'            => 'digital-license-manager-pro',
-				'file'            => DLM_PLUGIN_PRO_FILE,
-				'basename'        => DLM_PLUGIN_PRO_BASENAME,
-				'version'         => DLM_PLUGIN_PRO_VERSION,
-				'url_purchase'    => DLM_PLUGIN_PRO_URL,
-				'url_settings'    => '',
-				'consumer_key'    => 'ck_af0d08f062474fc78c0a78d141cc28a2e529e315',
-				'consumer_secret' => 'cs_3feb428091467bf1761b871d63123556c3b7df01',
-				'api_url'         => 'https://dlm.test/wp-json/dlm/v1/',
-				'prefix'          => 'cv',
+				'id'               => DLM_PLUGIN_PRO_ID,
+				'name'             => DLM_PLUGIN_PRO_BASENAME,
+				'file'             => DLM_PLUGIN_PRO_FILE,
+				'basename'         => DLM_PLUGIN_PRO_BASENAME,
+				'version'          => DLM_PLUGIN_PRO_VERSION,
+				'url_purchase'     => DLM_PLUGIN_PRO_URL,
+				'url_settings'     => admin_url( 'options-general.php?page=dlm-plugin-pro' ),
+				'consumer_key'     => DLM_PLUGIN_PRO_ACTIVATOR_CONSUMER_KEY,
+				'consumer_secret'  => DLM_PLUGIN_PRO_ACTIVATOR_CONSUMER_SECRET,
+				'api_url'          => DLM_PLUGIN_PRO_ACTIVATOR_URL,
+				'prefix'           => 'cv',
+				'labels'           => $labels,
+				'mask_key_input'   => true, // Show ***** in license key input?
 			) );
+
 		} catch ( \Exception $e ) {
 			error_log( 'Error: ' . $e->getMessage() );
 		}
+
+		// Optional:
+		// add_action( 'dlm_wp_updater_activate_meta', [ $this, 'updater_activate_endpoint_meta' ], 10, 3 );
 	}
 
 	/**
-	 * Setup the admin menu
+	 * Example on how to modify the Activation label
+	 *
+	 * @param $params
+	 * @param $key
+	 * @param Configuration $configuration
+	 *
+	 * @return void
+	 */
+	public function updater_activate_endpoint_meta( $params, $key, $configuration ) {
+
+		if ( $configuration->getEntity()->getId() != DLM_PLUGIN_PRO_ID ) {
+			return $params; // Do not apply to other plugins that use this activator.
+		}
+
+		if ( isset( $params['label'] ) ) {
+			$params['label'] = str_replace( [ 'https://', 'http://' ], '', $params['label'] );
+		}
+
+		return $params;
+	}
+
+	/**
+	 * Set up the admin menu
 	 */
 	public function setup_admin_menu() {
 		add_submenu_page(

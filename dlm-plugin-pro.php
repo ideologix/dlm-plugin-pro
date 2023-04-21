@@ -18,6 +18,9 @@ define( 'DLM_PLUGIN_PRO_PATH', trailingslashit( plugin_dir_path( __FILE__ ) ) );
 define( 'DLM_PLUGIN_PRO_FILE', __FILE__ );
 define( 'DLM_PLUGIN_PRO_BASENAME', plugin_basename( __FILE__ ) );
 define( 'DLM_PLUGIN_PRO_URL', 'https://yoursite.com/product/dlm-plugin-pro' );
+define( 'DLM_PLUGIN_PRO_ACTIVATOR_CONSUMER_KEY', 'ck_XXXXXXXXXXXXXXXXXXXXXXXXXXX' );
+define( 'DLM_PLUGIN_PRO_ACTIVATOR_CONSUMER_SECRET', 'cs_XXXXXXXXXXXXXXXXXXXXXXXXXX' );
+define( 'DLM_PLUGIN_PRO_ACTIVATOR_URL', 'http://yoursite.com/wp-json/dlm/v1/' );
 
 if ( ! file_exists( DLM_PLUGIN_PRO_PATH . 'vendor/autoload.php' ) ) {
 	wp_die( 'Please run composer install to install the composer dependencies.' );
