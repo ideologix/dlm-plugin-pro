@@ -151,7 +151,7 @@ class Bootstrap {
 		// ...
 
 		// Do your styling. This is just a plain form.
-		echo '<style>.dlm-form-group {background-color: #fff; padding: 10px; max-width: 50%; margin-top: 10px;}';
+		echo '<style>.dlm-form-group {background-color: #fff; padding: 10px; max-width: 50%; margin-top: 10px;}</style>';
 		echo '</div>';
 
 	}
