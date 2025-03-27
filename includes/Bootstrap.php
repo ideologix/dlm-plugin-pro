@@ -47,33 +47,6 @@ class Bootstrap {
 	protected function setup_updater() {
 		try {
 
-			$labels = [
-				'activator.no_permissions'                   => __( 'Sorry, you dont have enough permissions to manage those settings.', 'dlm-plugin-pro' ),
-				'activator.license_removed'                  => __( 'License removed.', 'dlm-plugin-pro' ),
-				'activator.invalid_action'                   => __( 'Invalid action.', 'dlm-plugin-pro' ),
-				'activator.invalid_license_key'              => __( 'Please provide valid product key.', 'dlm-plugin-pro' ),
-				'activator.license_activated'                => __( 'Congrats! Your key is valid and your product will receive future updates', 'dlm-plugin-pro' ),
-				'activator.license_deactivated'              => __( 'The license key is now deactivated.', 'dlm-plugin-pro' ),
-				'activator.activation_permanent'             => __( 'License :status. Activation permanent.', 'dlm-plugin-pro' ),
-				'activator.activation_expires'               => __( 'License :status. Expires on :expires_at (:days_remaining days remaining).', 'dlm-plugin-pro' ),
-				'activator.activation_deactivated_permanent' => __( 'License :status. Deactivated on :deactivated_at (Valid permanently)', 'dlm-plugin-pro' ),
-				'activator.activation_deactivated_expires'   => __( 'License :status. Deactivated on :deactivated_at (:days_remaining days remaining)', 'dlm-plugin-pro' ),
-				'activator.activation_expired_purchase'      => __( 'Your license is :status. To get regular updates and support, please <purchase_link>purchase the product</purchase_link>.', 'dlm-plugin-pro' ),
-				'activator.activation_purchase'              => __( 'To get regular updates and support, please <purchase_link>purchase the product</purchase_link>.', 'dlm-plugin-pro' ),
-				'activator.word_valid'                       => __( 'valid', 'dlm-plugin-pro' ),
-				'activator.word_expired'                     => __( 'expired', 'dlm-plugin-pro' ),
-				'activator.word_expired_or_invalid'          => __( 'expired or invalid', 'dlm-plugin-pro' ),
-				'activator.word_deactivate'                  => __( 'Deactivate', 'dlm-plugin-pro' ),
-				'activator.word_activate'                    => __( 'Activate', 'dlm-plugin-pro' ),
-				'activator.word_reactivate'                  => __( 'Reactivate', 'dlm-plugin-pro' ),
-				'activator.word_purchase'                    => __( 'Purchase', 'dlm-plugin-pro' ),
-				'activator.word_renew'                       => __( 'Renew', 'dlm-plugin-pro' ),
-				'activator.word_remove'                      => __( 'Remove', 'dlm-plugin-pro' ),
-				'activator.word_product_key'                 => __( 'Product Key', 'dlm-plugin-pro' ),
-				'activator.help_remove'                      => __( 'Remove the license key', 'dlm-plugin-pro' ),
-				'activator.help_product_key'                 => __( 'Enter your product key', 'dlm-plugin-pro' ),
-			];
-
 			$this->updater = new Main( array(
 				'id'              => DLM_PLUGIN_PRO_ID,
 				'name'            => DLM_PLUGIN_PRO_BASENAME,
@@ -86,7 +59,34 @@ class Bootstrap {
 				'consumer_secret' => DLM_PLUGIN_PRO_ACTIVATOR_CONSUMER_SECRET,
 				'api_url'         => DLM_PLUGIN_PRO_ACTIVATOR_URL,
 				'prefix'          => 'cv',
-				'labels'          => $labels,
+				'labels'          => function() {
+					return [
+						'activator.no_permissions'                   => __( 'Sorry, you dont have enough permissions to manage those settings.', 'dlm-plugin-pro' ),
+						'activator.license_removed'                  => __( 'License removed.', 'dlm-plugin-pro' ),
+						'activator.invalid_action'                   => __( 'Invalid action.', 'dlm-plugin-pro' ),
+						'activator.invalid_license_key'              => __( 'Please provide valid product key.', 'dlm-plugin-pro' ),
+						'activator.license_activated'                => __( 'Congrats! Your key is valid and your product will receive future updates', 'dlm-plugin-pro' ),
+						'activator.license_deactivated'              => __( 'The license key is now deactivated.', 'dlm-plugin-pro' ),
+						'activator.activation_permanent'             => __( 'License :status. Activation permanent.', 'dlm-plugin-pro' ),
+						'activator.activation_expires'               => __( 'License :status. Expires on :expires_at (:days_remaining days remaining).', 'dlm-plugin-pro' ),
+						'activator.activation_deactivated_permanent' => __( 'License :status. Deactivated on :deactivated_at (Valid permanently)', 'dlm-plugin-pro' ),
+						'activator.activation_deactivated_expires'   => __( 'License :status. Deactivated on :deactivated_at (:days_remaining days remaining)', 'dlm-plugin-pro' ),
+						'activator.activation_expired_purchase'      => __( 'Your license is :status. To get regular updates and support, please <purchase_link>purchase the product</purchase_link>.', 'dlm-plugin-pro' ),
+						'activator.activation_purchase'              => __( 'To get regular updates and support, please <purchase_link>purchase the product</purchase_link>.', 'dlm-plugin-pro' ),
+						'activator.word_valid'                       => __( 'valid', 'dlm-plugin-pro' ),
+						'activator.word_expired'                     => __( 'expired', 'dlm-plugin-pro' ),
+						'activator.word_expired_or_invalid'          => __( 'expired or invalid', 'dlm-plugin-pro' ),
+						'activator.word_deactivate'                  => __( 'Deactivate', 'dlm-plugin-pro' ),
+						'activator.word_activate'                    => __( 'Activate', 'dlm-plugin-pro' ),
+						'activator.word_reactivate'                  => __( 'Reactivate', 'dlm-plugin-pro' ),
+						'activator.word_purchase'                    => __( 'Purchase', 'dlm-plugin-pro' ),
+						'activator.word_renew'                       => __( 'Renew', 'dlm-plugin-pro' ),
+						'activator.word_remove'                      => __( 'Remove', 'dlm-plugin-pro' ),
+						'activator.word_product_key'                 => __( 'Product Key', 'dlm-plugin-pro' ),
+						'activator.help_remove'                      => __( 'Remove the license key', 'dlm-plugin-pro' ),
+						'activator.help_product_key'                 => __( 'Enter your product key', 'dlm-plugin-pro' ),
+					];
+				},
 				'mask_key_input'  => true, // Show ***** in license key input?
 			) );
 
